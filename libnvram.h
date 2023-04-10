@@ -1,5 +1,5 @@
-#ifndef _LIBNVRAM_H_
-#define _LIBNVRAM_H_
+#ifndef LIBNVRAM_H_
+#define LIBNVRAM_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -262,4 +262,4 @@ uint32_t libnvram_crc32(const uint8_t *data, uint32_t len);
 }
 #endif
 
-#endif // _LIBNVRAM_H_
+#endif // LIBNVRAM_H_
