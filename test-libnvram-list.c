@@ -311,8 +311,8 @@ static int test_libnvram_list_iterate()
 	libnvram_list_set(&list, &entry2);
 	libnvram_list_set(&list, &entry3);
 
-	libnvram_list_it it = libnvram_list_begin(list);
-	const libnvram_list_it end = libnvram_list_end(list);
+	struct libnvram_list* it = libnvram_list_begin(list);
+	const struct libnvram_list* end = libnvram_list_end(list);
 	if (it == end)
 		goto error_exit;
 	if (libnvram_list_deref(it) != libnvram_list_get(list, (uint8_t*) "TEST1", 5))

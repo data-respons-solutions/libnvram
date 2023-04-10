@@ -96,11 +96,10 @@ int libnvram_list_remove(struct libnvram_list** list, const uint8_t* key, uint32
 /*
  * Iterate over list. Always verify begin() != end().
  */
-typedef struct libnvram_list* libnvram_list_it;
-libnvram_list_it libnvram_list_begin(const struct libnvram_list* list);
-libnvram_list_it libnvram_list_end(const struct libnvram_list* list);
-libnvram_list_it libnvram_list_next(const libnvram_list_it it);
-struct libnvram_entry* libnvram_list_deref(const libnvram_list_it it);
+struct libnvram_list* libnvram_list_begin(const struct libnvram_list* list);
+struct libnvram_list* libnvram_list_end(const struct libnvram_list* list);
+struct libnvram_list* libnvram_list_next(const struct libnvram_list* it);
+struct libnvram_entry* libnvram_list_deref(const struct libnvram_list* it);
 
 /*
  * Destroy libnvram list
