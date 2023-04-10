@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "libnvram.h"
-#include "crc32.h"
 
 uint32_t libnvram_list_size(const struct libnvram_list* list)
 {
@@ -253,7 +252,7 @@ int libnvram_validate_header(const uint8_t* data, uint32_t len, struct libnvram_
 		return -LIBNVRAM_ERROR_INVALID;
 	}
 
-	const uint32_t crc = calc_crc32(data, HEADER_HDR_CRC32_OFFSET);
+	const uint32_t crc = libnvram_crc32(data, HEADER_HDR_CRC32_OFFSET);
 	const uint32_t hdr_crc = letou32(data + HEADER_HDR_CRC32_OFFSET);
 	if (crc != hdr_crc) {
 		return -LIBNVRAM_ERROR_CRC;
@@ -310,7 +309,7 @@ int libnvram_validate_data(const uint8_t* data, uint32_t len, const struct libnv
 		return -LIBNVRAM_ERROR_INVALID;
 	}
 
-	const uint32_t crc = calc_crc32(data, hdr->len);
+	const uint32_t crc = libnvram_crc32(data, hdr->len);
 	if (crc != hdr->crc32) {
 		return -LIBNVRAM_ERROR_CRC;
 	}
@@ -398,7 +397,7 @@ static void write_header(uint8_t* data, struct libnvram_header* hdr)
 	memset(data + HEADER_RSVD_OFFSET, 0, HEADER_RSVD_SIZE);
 	memcpy_u32_as_le(data + HEADER_LEN_OFFSET, hdr->len);
 	memcpy_u32_as_le(data + HEADER_CRC32_OFFSET, hdr->crc32);
-	hdr->hdr_crc32 = calc_crc32(data, HEADER_HDR_CRC32_OFFSET);
+	hdr->hdr_crc32 = libnvram_crc32(data, HEADER_HDR_CRC32_OFFSET);
 	memcpy_u32_as_le(data + HEADER_HDR_CRC32_OFFSET, hdr->hdr_crc32);
 }
 
@@ -420,7 +419,7 @@ uint32_t libnvram_serialize(const struct libnvram_list* list, uint8_t* data, uin
 
 	hdr->magic = HEADER_MAGIC_VALUE;
 	hdr->len = pos - HEADER_SIZE;
-	hdr->crc32 = calc_crc32(data + HEADER_SIZE, hdr->len);
+	hdr->crc32 = libnvram_crc32(data + HEADER_SIZE, hdr->len);
 
 	write_header(data, hdr);
 

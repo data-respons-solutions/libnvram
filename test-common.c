@@ -3,7 +3,6 @@
 #include <inttypes.h>
 #include <string.h>
 #include "libnvram.h"
-#include "crc32.h"
 #include "test-common.h"
 
 // return 0 for equal
@@ -41,7 +40,7 @@ struct libnvram_header make_header(uint32_t user, uint8_t type, uint32_t len, ui
 	memset(hdr.reserved, 0, 3);
 	hdr.len = len;
 	hdr.crc32 = crc32;
-	hdr.hdr_crc32 = calc_crc32((uint8_t*)&hdr, sizeof(hdr) - 4);
+	hdr.hdr_crc32 = libnvram_crc32((uint8_t*)&hdr, sizeof(hdr) - 4);
 	return hdr;
 }
 

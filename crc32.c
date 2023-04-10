@@ -1,4 +1,4 @@
-#include "crc32.h"
+#include "libnvram.h"
 
 /*
  * Lookup table and calc_crc32 function taken from here:
@@ -81,7 +81,7 @@ static uint32_t CRC_TABLE[256] = {
 };
 
 
-uint32_t calc_crc32(const uint8_t *data, uint32_t len)
+uint32_t libnvram_crc32(const uint8_t *data, uint32_t len)
 {
 	#define M2 0xffffff00
 

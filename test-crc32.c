@@ -3,7 +3,7 @@
 #include <string.h>
 #include <errno.h>
 #include <inttypes.h>
-#include "crc32.h"
+#include "libnvram.h"
 #include "test-common.h"
 
 static int test_crc32_1(void)
@@ -16,7 +16,7 @@ static int test_crc32_1(void)
 		0x45, 0x53, 0x54, 0x32, 0x64, 0x65, 0x66
 	};
 	const uint32_t data_crc32 = 0x6c9dd729;
-	const uint32_t crc32 = calc_crc32(data, sizeof(data));
+	const uint32_t crc32 = libnvram_crc32(data, sizeof(data));
 
 	if (data_crc32 != crc32) {
 		printf("0x%08x != 0x%08x\n", data_crc32, crc32);
@@ -33,7 +33,7 @@ static int test_crc32_2(void)
 		0x29, 0xd7, 0x9d, 0x6c
 	};
 	const uint32_t data_crc32 = 0x0b4ad6e8;
-	const uint32_t crc32 = calc_crc32(data, sizeof(data));
+	const uint32_t crc32 = libnvram_crc32(data, sizeof(data));
 
 	if (data_crc32 != crc32) {
 		printf("0x%08x != 0x%08x\n", data_crc32, crc32);
@@ -47,7 +47,7 @@ static int test_crc32_empty(void)
 {
 	const uint8_t *data = NULL;
 	const uint32_t data_crc32 = 0x0;
-	const uint32_t crc32 = calc_crc32(data, 0);
+	const uint32_t crc32 = libnvram_crc32(data, 0);
 
 	if (data_crc32 != crc32) {
 		printf("0x%08x != 0x%08x\n", data_crc32, crc32);
@@ -63,7 +63,7 @@ static int test_crc32_data_zero(void)
 		0x00, 0x00, 0x00, 0x00
 	};
 	const uint32_t data_crc32 = 0x38fb2284;
-	const uint32_t crc32 = calc_crc32(data, sizeof(data));
+	const uint32_t crc32 = libnvram_crc32(data, sizeof(data));
 
 	if (data_crc32 != crc32) {
 		printf("0x%08x != 0x%08x\n", data_crc32, crc32);

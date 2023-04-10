@@ -5,7 +5,11 @@
 extern "C" {
 #endif
 
+#ifdef __UBOOT__
+#include <linux/types.h>
+#else
 #include <stdint.h>
+#endif
 
 /*
  * This is a library for serializing key value pairs into non-volatile storage.
@@ -248,6 +252,11 @@ enum libnvram_operation libnvram_next_transaction(const struct libnvram_transact
  * libnvram_header should be the returned one from libnvram_serialize call.
  */
 void libnvram_update_transaction(struct libnvram_transaction* trans,  enum libnvram_operation op, const struct libnvram_header* hdr);
+
+/*
+ * Calculate crc32 checksum with algorithm used by libnvram.
+ */
+uint32_t libnvram_crc32(const uint8_t *data, uint32_t len);
 
 #ifdef __cplusplus
 }
