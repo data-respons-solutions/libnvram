@@ -596,7 +596,7 @@ error_exit:
 	return 1;
 }
 
-struct test test_array[] = {
+const struct test test_array[] = {
 		ADD_TEST(test_libnvram_header_size),
 		ADD_TEST(test_libnvram_validate_header),
 		ADD_TEST(test_libnvram_validate_header_empty_data),

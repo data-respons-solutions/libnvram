@@ -16,4 +16,4 @@ struct test {
 	int (*func)(void);
 };
 #define ADD_TEST(NAME) {#NAME, &NAME}
-extern struct test test_array[];
+extern const struct test test_array[];

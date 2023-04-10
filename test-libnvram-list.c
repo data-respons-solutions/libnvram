@@ -340,7 +340,7 @@ error_exit:
 	return r;
 }
 
-struct test test_array[] = {
+const struct test test_array[] = {
 		ADD_TEST(test_libnvram_list_size_0),
 		ADD_TEST(test_libnvram_list_size_1),
 		ADD_TEST(test_libnvram_list_size_3),

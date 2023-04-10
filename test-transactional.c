@@ -417,7 +417,7 @@ error_exit:
 	return 1;
 }
 
-struct test test_array[] = {
+const struct test test_array[] = {
 		ADD_TEST(test_libnvram_init_transaction),
 		ADD_TEST(test_libnvram_init_transaction_corrupt_header),
 		ADD_TEST(test_libnvram_init_transaction_corrupt_data),

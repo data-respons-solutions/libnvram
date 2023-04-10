@@ -73,7 +73,7 @@ static int test_crc32_data_zero(void)
 	return 0;
 }
 
-struct test test_array[] = {
+const struct test test_array[] = {
 		ADD_TEST(test_crc32_1),
 		ADD_TEST(test_crc32_2),
 		ADD_TEST(test_crc32_empty),

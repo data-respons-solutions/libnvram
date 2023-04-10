@@ -44,10 +44,6 @@ struct libnvram_header make_header(uint32_t user, uint8_t type, uint32_t len, ui
 	return hdr;
 }
 
-uint32_t len;
-uint32_t crc32;
-uint32_t hdr_crc32;
-
 int main(int argc, char** argv)
 {
 	(void) argc;

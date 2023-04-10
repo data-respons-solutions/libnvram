@@ -13,7 +13,7 @@
  * bits in CRC:              32             32
  */
 
-static uint32_t CRC_TABLE[256] = {
+static const uint32_t CRC_TABLE[256] = {
 	0x00000000L, 0x04c11db7L, 0x09823b6eL, 0x0d4326d9L,
 	0x130476dcL, 0x17c56b6bL, 0x1a864db2L, 0x1e475005L,
 	0x2608edb8L, 0x22c9f00fL, 0x2f8ad6d6L, 0x2b4bcb61L,
