@@ -513,8 +513,7 @@ enum libnvram_operation libnvram_next_transaction(const struct libnvram_transact
 		op = LIBNVRAM_OPERATION_WRITE_B;
 		hdr->user = trans->section_a.hdr.user + 1;
 	}
-	else
-	if ((trans->active & LIBNVRAM_ACTIVE_B) == LIBNVRAM_ACTIVE_B) {
+	else if ((trans->active & LIBNVRAM_ACTIVE_B) == LIBNVRAM_ACTIVE_B) {
 		op = LIBNVRAM_OPERATION_WRITE_A;
 		hdr->user = trans->section_b.hdr.user + 1;
 	}
