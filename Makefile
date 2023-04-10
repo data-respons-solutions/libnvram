@@ -1,10 +1,23 @@
 BUILD ?= build
-CLANG_TIDY ?= no
-CFLAGS += -Wall
-CFLAGS += -Wextra
-CFLAGS += -Werror
-CFLAGS += -std=gnu11
-CFLAGS += -pedantic
+CFLAGS += -Wall -Wextra -Werror -std=gnu11 -pedantic
+ifeq ($(LIBNVRAM_USE_SANITIZER), 1)
+	CFLAGS += -fsanitize=address -fsanitize=undefined
+	LDFLAGS += -fsanitize=address -fsanitize=undefined
+endif
+CLANG_TIDY_CHECKS_LIST = -*
+CLANG_TIDY_CHECKS_LIST += clang-analyzer-*
+CLANG_TIDY_CHECKS_LIST += bugprone-*
+CLANG_TIDY_CHECKS_LIST += cppcoreguidelines-*
+CLANG_TIDY_CHECKS_LIST += portability-*
+CLANG_TIDY_CHECKS_LIST += readability-*
+CLANG_TIDY_CHECKS_LIST += -readability-braces-around-statements
+#CLANG_TIDY_CHECKS_LIST += -readability-function-cognitive-complexity
+#CLANG_TIDY_CHECKS_LIST += -cppcoreguidelines-avoid-non-const-global-variables
+CLANG_TIDY_CHECKS_LIST += -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
+CLANG_TIDY_CHECKS_LIST += -cppcoreguidelines-avoid-magic-numbers,-readability-magic-numbers
+space := $() $()
+comma := ,
+CLANG_TIDY_CHECKS ?= $(subst $(space),$(comma),$(CLANG_TIDY_CHECKS_LIST))
 
 ifeq ($(abspath $(BUILD)),$(shell pwd)) 
 $(error "ERROR: Build dir can't be equal to source dir")
@@ -31,9 +44,9 @@ $(BUILD)/test-crc32: $(addprefix $(BUILD)/, test-crc32.o crc32.o test-common.o)
 	$(CC) -o $@ $^ $(LDFLAGS)
    
 $(BUILD)/%.o: %.c 
-ifeq ($(CLANG_TIDY),yes)
+ifeq ($(LIBNVRAM_CLANG_TIDY), 1)
 	clang-tidy $< -header-filter=.* \
-		-checks=-*,clang-analyzer-*,bugprone-*,cppcoreguidelines-*,portability-*,readability-* -- $<
+		-checks=$(CLANG_TIDY_CHECKS) -- $<
 endif
 	mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -46,3 +59,7 @@ test: $(addprefix $(BUILD)/, test-core test-libnvram-list test-transactional tes
 			exit 1; \
 		fi \
 	done
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILD)
